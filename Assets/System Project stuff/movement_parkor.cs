@@ -16,6 +16,7 @@ public class movement_parkor : MonoBehaviour
     void Start()
     {
         Parkors.AddListener(ParkorAction);
+        Parkors.AddListener(TextMiddleMan);
     }
 
     // Update is called once per frame
@@ -85,5 +86,10 @@ public class movement_parkor : MonoBehaviour
                 //call the backflip function
             }
         }
+    }
+    public bool TextMiddleMan()
+    {
+        bool temp = true;
+        return temp;
     }
 }

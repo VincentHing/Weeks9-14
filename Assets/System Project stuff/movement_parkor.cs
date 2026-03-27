@@ -1,0 +1,57 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class movement_parkor : MonoBehaviour
+{
+    public float speed=5;
+    public Vector2 movementModif;
+    public bool animPlaying=false;
+
+    //temporarily holds the transform so i can mess around with it easier
+    public Vector3 position;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //so you can't walk up
+        movementModif.y = 0;
+        //normal movement
+        position = transform.position;
+        position += (Vector3)movementModif * speed * Time.deltaTime;
+       
+        //making sure the player isn't doing somthing or up top
+        if (animPlaying==false&&position.y<0)
+        {
+            if (position.x > 1.48)
+            {
+                //cap x if going through wall
+                position.x = 1.48f;
+            }
+        }
+        //makes sure the player isn't doing somthing or on the bottom
+        if (animPlaying == false && position.y > 0)
+        {
+            if (position.x < 1.48)
+            {
+                //fall if over edge
+                position.y = -2.59f;
+            }
+        }
+
+        //send back the final numba'
+        transform.position = position;
+
+    }
+    //this and update were mostly copied from the input system follow along in class
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        movementModif = context.ReadValue<Vector2>();
+    }
+
+}

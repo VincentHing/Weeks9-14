@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using System.Collections;
 
 public class movement_parkor : MonoBehaviour
 {
@@ -12,29 +13,32 @@ public class movement_parkor : MonoBehaviour
     //temporarily holds the transform so i can mess around with it easier
     public Vector3 position;
 
-
+    //for getting the stuff from text show so we can call it's function
     public GameObject oob;
     public textshow scrpt;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+   
     void Start()
     {
+        //adding stuff to the unity event 
         Parkors.AddListener(ParkorAction);
-        // Parkors.AddListener(TextMiddleMan);
+        Parkors.AddListener(TextMiddleMan);
         //getting access to the other script
         scrpt = oob.GetComponent<textshow>();
+
+        position = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
         //so you can't walk up
-        movementModif.y = 0;
+       // movementModif.y = 0;
         //normal movement
-        position = transform.position;
-        position += (Vector3)movementModif * speed * Time.deltaTime;
        
-        //making sure the player isn't doing somthing or up top
-        if (animPlaying==false&&position.y<0)
+        position.x += movementModif.x * speed * Time.deltaTime;
+       
+        //making sure the player isn't  up top
+        if (position.y<0)
         {
             if (position.x > 1.48)
             {
@@ -42,8 +46,8 @@ public class movement_parkor : MonoBehaviour
                 position.x = 1.48f;
             }
         }
-        //makes sure the player isn't doing somthing or on the bottom
-        if (animPlaying == false && position.y > 0)
+        //makes sure the player isn't on the bottom
+        if (position.y > 0)
         {
             if (position.x < 1.48)
             {
@@ -81,19 +85,46 @@ public class movement_parkor : MonoBehaviour
 
     public void ParkorAction()
     {
-        if (!animPlaying)
+       
+        if (animPlaying==false)
         {
             animPlaying = true;
             //are you within walclimb range
-            if(position.x <= 1.48f || position.x > 1f)
+            if(position.x <= 1.48f && position.x > 1f)
             {
-                //call a walclimb function
+               
+                StartCoroutine(Wallclimb());
             }
             else
             {
                 //call the backflip function
             }
         }
+    }
+
+    IEnumerator Wallclimb()
+    {
+
+        
+        //horizontally move (after)
+        while (position.x <= 2.5)
+        {
+            Debug.Log("X movement");
+            //vertically move untill finished
+            while (position.y <= 0.88)
+            {
+                Debug.Log("y movement");
+                //move up then wait till next
+                position.y += 0.3f;
+                yield return null;
+            }
+            //move to the side and wait till next
+            position.x += 0.2f;
+            yield return null;
+        }
+        //turn off anim and leave
+        animPlaying = false;
+        yield return null;
     }
     public void TextMiddleMan()
     {

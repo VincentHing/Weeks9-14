@@ -10,8 +10,9 @@ public class movement_parkor : MonoBehaviour
     public bool animPlaying=false;
     UnityEvent Parkors = new UnityEvent();
 
-    //temporarily holds the transform so i can mess around with it easier
+    //temporarily holds the transform & rotations so i can mess around with them easier
     public Vector3 position;
+    public Vector3 rotation;
 
     //for getting the stuff from text show so we can call it's function
     public GameObject oob;
@@ -70,6 +71,7 @@ public class movement_parkor : MonoBehaviour
 
         //send back the final numba'
         transform.position = position;
+        transform.eulerAngles = rotation;
         
     }
     
@@ -111,8 +113,8 @@ public class movement_parkor : MonoBehaviour
             }
             else
             {
-
-                //call the backflip function
+                //start backflip animation
+                currentCo = StartCoroutine(Backflip());
             }
         }
     }
@@ -142,6 +144,18 @@ public class movement_parkor : MonoBehaviour
         //turn off anim and leave
         animPlaying = false;
         yield return null;
+    }
+    IEnumerator Backflip()
+    {
+        //spins 360 once
+        while(rotation.z < 360f)
+        {
+            rotation.z +=10;
+               yield return null;
+        }
+        rotation.z = 0;
+        yield return null;
+
     }
     public void TextMiddleMan()
     {

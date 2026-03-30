@@ -16,7 +16,9 @@ public class textshow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //make time move
        clock += Time.deltaTime;
+        //if it's outside the alloted time it's off screen, if not it's on
         if (clock > 2)
         {
             transform.position = offScreen;
@@ -29,7 +31,7 @@ public class textshow : MonoBehaviour
     }
 
     public void ShowUs()
-    { 
+    { //sets the timer so the text is on screen for about 2 seconds
         clock = 0;
     }
 

@@ -12,11 +12,16 @@ public class movement_parkor : MonoBehaviour
     //temporarily holds the transform so i can mess around with it easier
     public Vector3 position;
 
+
+    public GameObject oob;
+    public textshow scrpt;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Parkors.AddListener(ParkorAction);
-        Parkors.AddListener(TextMiddleMan);
+        // Parkors.AddListener(TextMiddleMan);
+        //getting access to the other script
+        scrpt = oob.GetComponent<textshow>();
     }
 
     // Update is called once per frame
@@ -49,7 +54,7 @@ public class movement_parkor : MonoBehaviour
 
         //send back the final numba'
         transform.position = position;
-
+        
     }
     
     //this and update were mostly copied from the input system follow along in class
@@ -57,6 +62,9 @@ public class movement_parkor : MonoBehaviour
     {
         if (context.performed==true)
         {
+            /* somthing about the way i coded the movement along with specifically
+             using a keyboard for this makes you continuously move in one direction after you've pressed it
+            i could fix this but that would take time and isn't what this project is about (press up/w to stop moving) */
             movementModif = context.ReadValue<Vector2>();
         }
        
@@ -87,9 +95,10 @@ public class movement_parkor : MonoBehaviour
             }
         }
     }
-    public bool TextMiddleMan()
+    public void TextMiddleMan()
     {
-        bool temp = true;
-        return temp;
+        scrpt.ShowUs();
+
     }
+    
 }

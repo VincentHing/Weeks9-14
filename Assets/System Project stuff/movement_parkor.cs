@@ -150,7 +150,7 @@ public class movement_parkor : MonoBehaviour
         //spins 360 once
         while(rotation.z < 360f)
         {
-            rotation.z +=10;
+            rotation.z +=5;
                yield return null;
         }
         rotation.z = 0;

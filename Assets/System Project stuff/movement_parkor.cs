@@ -16,6 +16,8 @@ public class movement_parkor : MonoBehaviour
     //for getting the stuff from text show so we can call it's function
     public GameObject oob;
     public textshow scrpt;
+
+    Coroutine currentCo;
    
     void Start()
     {
@@ -36,7 +38,15 @@ public class movement_parkor : MonoBehaviour
         //normal movement
        
         position.x += movementModif.x * speed * Time.deltaTime;
-       
+
+        //exiting coroutine if you get off the wall
+        if (animPlaying = true && position.x < 1f && position.y > -1.6)
+        {
+            //stops animation and coroutine
+            animPlaying = false;
+           StopCoroutine(currentCo);
+        }
+
         //making sure the player isn't  up top
         if (position.y<0)
         {
@@ -55,6 +65,7 @@ public class movement_parkor : MonoBehaviour
                 position.y = -2.59f;
             }
         }
+        
 
         //send back the final numba'
         transform.position = position;
@@ -92,11 +103,12 @@ public class movement_parkor : MonoBehaviour
             //are you within walclimb range
             if(position.x <= 1.48f && position.x > 1f)
             {
-               
-                StartCoroutine(Wallclimb());
+               //start wallclimb animation
+                currentCo = StartCoroutine(Wallclimb());
             }
             else
             {
+
                 //call the backflip function
             }
         }
@@ -109,14 +121,16 @@ public class movement_parkor : MonoBehaviour
         //horizontally move (after)
         while (position.x <= 2.5)
         {
-            Debug.Log("X movement");
+            
             //vertically move untill finished
             while (position.y <= 0.88)
             {
-                Debug.Log("y movement");
+                
                 //move up then wait till next
-                position.y += 0.3f;
+                position.y += 0.2f;
                 yield return null;
+
+                
             }
             //move to the side and wait till next
             position.x += 0.2f;

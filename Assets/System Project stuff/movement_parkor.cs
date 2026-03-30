@@ -159,6 +159,7 @@ public class movement_parkor : MonoBehaviour
     }
     public void TextMiddleMan()
     {
+        //shows the parkore text on screen for 1.5 seconds
         scrpt.ShowUs();
 
     }

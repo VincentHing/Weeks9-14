@@ -33,18 +33,19 @@ public class movement_parkor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //so you can't walk up
-       // movementModif.y = 0;
-        //normal movement
+       
+       
+        //normal movement along x
        
         position.x += movementModif.x * speed * Time.deltaTime;
 
         //exiting coroutine if you get off the wall
         if (animPlaying = true && position.x < 1f && position.y > -1.6)
         {
-            //stops animation and coroutine
+            //stops animation and coroutine and moves to ground
             animPlaying = false;
            StopCoroutine(currentCo);
+            position.y = -2.59f;
         }
 
         //making sure the player isn't  up top
@@ -103,7 +104,9 @@ public class movement_parkor : MonoBehaviour
             //are you within walclimb range
             if(position.x <= 1.48f && position.x > 1f)
             {
-               //start wallclimb animation
+                //warp to wall
+                position.x = 1.48f;
+                //start wallclimb animation
                 currentCo = StartCoroutine(Wallclimb());
             }
             else
